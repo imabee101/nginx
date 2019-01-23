@@ -1,4 +1,4 @@
-[![logo](https://raw.githubusercontent.com/dperson/nginx/master/logo.png)](http://nginx.org)
+[![logo](https://raw.githubusercontent.com/imabee101/nginx/master/logo.png)](http://nginx.org)
 
 # nginx
 
@@ -29,7 +29,7 @@ concept port for Microsoft Windows.
 
 ## Exposing the port
 
-    sudo docker run -it -p 80:80 -p 443:443 -d dperson/nginx
+    sudo docker run -it -p 80:80 -p 443:443 -d imabee/nginx
 
 Then you can hit `http://hostname:8080` or `http://host-ip:8080` in your
 browser.
@@ -37,11 +37,11 @@ browser.
 ## Hosting some local simple static content
 
     sudo docker run -it -p 80:80 -p 443:443 \
-                -v /some/path:/srv/www:ro -d dperson/nginx
+                -v /some/path:/srv/www:ro -d imabee/nginx
 
 ## Complex configuration
 
-    sudo docker run -it --rm dperson/nginx -h
+    sudo docker run -it --rm imabee/nginx -h
 
     Usage: nginx.sh [-opt] [command]
     Options (fields in '[]' are optional, '<>' are required):
@@ -163,12 +163,12 @@ Any of the commands can be run at creation with `docker run` or later with
 
 ### Start nginx with your real CA certs and setup SSL stapling:
 
-    sudo docker run -it --name web -p 80:80 -p 443:443 -d dperson/nginx -q
+    sudo docker run -it --name web -p 80:80 -p 443:443 -d imabee/nginx -q
     sudo docker exec -it web nginx.sh -q -s echo Stapling configured
 
 Will get you the same settings as
 
-    sudo docker run -it --name web -p 80:80 -p 443:443 -d dperson/nginx -q -s
+    sudo docker run -it --name web -p 80:80 -p 443:443 -d imabee/nginx -q -s
 
 Then run
 
@@ -180,24 +180,12 @@ Then run
                 sudo docker exec -it web tee /etc/nginx/ssl/chain.pem
     sudo docker restart web
 
-### Start a wiki running in an uwsgi container behind nginx:
-
-    sudo docker run -it --name wiki -d dperson/moinmoin
-    sudo docker run -it -p 80:80 -p 443:443 --link wiki:wiki -d dperson/nginx \
-                -u "wiki:3031;/wiki"
-
-OR
-
-    sudo docker run -it --name wiki -d dperson/moinmoin
-    sudo docker run -it -p 80:80 -p 443:443 --link wiki:wiki \
-                -e UWSGI="wiki:3031;/wiki" -d dperson/nginx
-
 ### Start nginx with a redirect:
 
 nginx will listen on a port for the hostname, and redirect to a different URL
 format (port;hostname;destination)
 
-    sudo docker run -it -p 80:80 -p 443:443 -d dperson/nginx \
+    sudo docker run -it -p 80:80 -p 443:443 -d imabee/nginx \
                 -r "80;myapp.example.com;https://myapp.herokuapp.com" \
                 -r "443;myapp.example.com;https://myapp.herokuapp.com"
 
@@ -205,73 +193,73 @@ ENVIRONMENT variables don't support multiple values, use args as above
 
 ### Start nginx with a web proxy:
 
-    sudo docker run -it --name smokeping -d dperson/smokeping
+    sudo docker run -it --name smokeping -d imabee/smokeping
     sudo docker run -it -p 80:80 -p 443:443 --link smokeping:smokeping \
-                -d dperson/nginx -w "http://smokeping/smokeping/;/smokeping/"
+                -d imabee/nginx -w "http://smokeping/smokeping/;/smokeping/"
 
 OR
 
     sudo docker run -it --name smokeping -d dperson/smokeping
     sudo docker run -it -p 80:80 -p 443:443 --link smokeping:smokeping \
                  -e PROXY="http://smokeping/smokeping/;/smokeping/" \
-                 -d dperson/nginx
+                 -d imabee/nginx
 
 ### Start nginx with a specified zoneinfo timezone:
 
-    sudo docker run -it -p 80:80 -p 443:443 -d dperson/nginx -t EST5EDT
+    sudo docker run -it -p 80:80 -p 443:443 -d imabee/nginx -t EST5EDT
 
 OR
 
-    sudo docker run -it -p 80:80 -p 443:443 -e TZ=EST5EDT -d dperson/nginx
+    sudo docker run -it -p 80:80 -p 443:443 -e TZ=EST5EDT -d imabee/nginx
 
 ### Start nginx with a defined hostname (instead of 'localhost'):
 
-    sudo docker run -it -p 80:80 -p 443:443 -d dperson/nginx -n "example.com"
+    sudo docker run -it -p 80:80 -p 443:443 -d imabee/nginx -n "example.com"
 
 OR
 
     sudo docker run -it -p 80:80 -p 443:443 -e NAME="example.com" \
-                -d dperson/nginx
+                -d imabee/nginx
 
 ### Start nginx with server tokens disabled (Production mode):
 
-    sudo docker run -it -p 80:80 -p 443:443 -d dperson/nginx -P
+    sudo docker run -it -p 80:80 -p 443:443 -d imabee/nginx -P
 
 OR
 
-    sudo docker run -it -p 80:80 -p 443:443 -e PROD=y -d dperson/nginx
+    sudo docker run -it -p 80:80 -p 443:443 -e PROD=y -d imabee/nginx
 
 ### Start nginx with X-Robots-Tag header (block indexing):
 
-    sudo docker run -it -p 80:80 -p 443:443 -d dperson/nginx -R
+    sudo docker run -it -p 80:80 -p 443:443 -d imabee/nginx -R
 
 OR
 
-    sudo docker run -it -p 80:80 -p 443:443 -e ROBOT=y -d dperson/nginx
+    sudo docker run -it -p 80:80 -p 443:443 -e ROBOT=y -d imabee/nginx
 
 ### Start nginx with SSI (Server Side Includes) enabled:
 
-    sudo docker run -it -p 80:80 -p 443:443 -d dperson/nginx -i
+    sudo docker run -it -p 80:80 -p 443:443 -d imabee/nginx -i
 
 OR
 
-    sudo docker run -it -p 80:80 -p 443:443 -e SSI=y -d dperson/nginx
+    sudo docker run -it -p 80:80 -p 443:443 -e SSI=y -d imabee/nginx
 
 ### Start nginx with Perfect Forward Secrecy and HTTP Strict Transport Security:
 
-    sudo docker run -it -p 80:80 -p 443:443 -d dperson/nginx -p -H
+    sudo docker run -it -p 80:80 -p 443:443 -d imabee/nginx -p -H
 
 OR
 
-    sudo docker run -it -p 80:80 -p 443:443 -e PFS=1 -e HSTS=y -d dperson/nginx
+    sudo docker run -it -p 80:80 -p 443:443 -e PFS=1 -e HSTS=y -d imabee/nginx
 
 ### Start nginx with SSL Sessions (better performance for clients):
 
-    sudo docker run -it -p 80:80 -p 443:443 -d dperson/nginx -S ""
+    sudo docker run -it -p 80:80 -p 443:443 -d imabee/nginx -S ""
 
 OR
 
-    sudo docker run -it -p 80:80 -p 443:443 -e SSL_SESSIONS=5m -d dperson/nginx
+    sudo docker run -it -p 80:80 -p 443:443 -e SSL_SESSIONS=5m -d imabee/nginx
 
 ---
 
