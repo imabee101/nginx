@@ -199,7 +199,7 @@ ENVIRONMENT variables don't support multiple values, use args as above
 
 OR
 
-    sudo docker run -it --name smokeping -d dperson/smokeping
+    sudo docker run -it --name example -d example/smokeping
     sudo docker run -it -p 80:80 -p 443:443 --link smokeping:smokeping \
                  -e PROXY="http://smokeping/smokeping/;/smokeping/" \
                  -d imabee/nginx
